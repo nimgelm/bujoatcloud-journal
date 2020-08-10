@@ -1,6 +1,5 @@
 package io.nimgelm.bujoatcloud.journal.model
 
-import org.springframework.data.annotation.Id
 import java.util.*
 import javax.persistence.*
 

@@ -1,7 +1,6 @@
 package io.nimgelm.bujoatcloud.journal.model
 
 import io.nimgelm.bujoatcloud.journal.util.enum.RetrospectiveType
-import org.springframework.data.annotation.Id
 import javax.persistence.*
 
 @Entity

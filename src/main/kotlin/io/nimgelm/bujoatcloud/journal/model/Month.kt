@@ -1,13 +1,12 @@
 package io.nimgelm.bujoatcloud.journal.model
 
 import io.nimgelm.bujoatcloud.journal.util.DateProcessor
-import org.springframework.data.annotation.Id
 import java.util.*
 import javax.persistence.*
 
 @Entity
-class Month(@OneToMany(mappedBy = "month") var weeks: Week,
-            @OneToMany(mappedBy = "month") var retrospectives: Retrospective) {
+class Month(@OneToMany(mappedBy = "month") var weeks: List<Week>,
+            @OneToMany(mappedBy = "month") var retrospectives: List<Retrospective>) {
 
     @Id
     @GeneratedValue
