@@ -8,8 +8,6 @@ import java.time.ZonedDateTime
 
 interface DayRepository : CrudRepository<Day, Long> {
 
-    fun findByToday(today: ZonedDateTime) : Day?
-
     fun findByName(name: String) : Day?
 }
 

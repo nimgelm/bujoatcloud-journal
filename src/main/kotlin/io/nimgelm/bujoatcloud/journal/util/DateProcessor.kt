@@ -1,14 +1,8 @@
 package io.nimgelm.bujoatcloud.journal.util
 
-import java.time.LocalTime
-import java.time.ZonedDateTime
 import java.util.*
 
 object DateProcessor {
-
-    fun getTodaysDateAtMidnight(zonedDateTime: ZonedDateTime) : ZonedDateTime {
-        return zonedDateTime.with(LocalTime.MIDNIGHT)
-    }
 
     fun getDayOfTheYearAsString(date: Date) : String {
         val calendar = getCalendarSetupForDate(date)
@@ -33,5 +27,29 @@ object DateProcessor {
         calendar.time = date
 
         return calendar
+    }
+
+    fun getNextDay(date: Date) : Date {
+        val calendar = getCalendarSetupForDate(date)
+        calendar.add(Calendar.DAY_OF_MONTH, 1)
+
+        return calendar.time
+    }
+
+    fun getFirstDayOfMonth(date: Date, monthModifier: Int = 0) : Date {
+        val calendar = getCalendarSetupForDate(date)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.add(Calendar.MONTH, monthModifier)
+
+        return calendar.time
+    }
+
+    fun getMonthDurationForDate(date: Date) : Int {
+        return getCalendarSetupForDate(date).getActualMaximum(Calendar.DAY_OF_MONTH)
+    }
+
+    fun getDayOfMonthForDate(date: Date) : Int {
+        val calendar = getCalendarSetupForDate(date)
+        return calendar.get(Calendar.DAY_OF_MONTH)
     }
 }

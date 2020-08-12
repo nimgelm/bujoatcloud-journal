@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.lang.RuntimeException
 import java.time.ZonedDateTime
+import java.util.*
 
 @Service
 class DatabaseService {
@@ -19,6 +20,10 @@ class DatabaseService {
     lateinit var eventRepository: EventRepository
     @Autowired
     lateinit var dayRepository: DayRepository
+    @Autowired
+    lateinit var weekRepository: WeekRepository
+    @Autowired
+    lateinit var monthRepository: MonthRepository
 
 
  /*********************************
@@ -59,14 +64,55 @@ class DatabaseService {
     }
 
     fun getDayForToday() : Day {
-        val todayAtMidnight = DateProcessor.getTodaysDateAtMidnight(ZonedDateTime.now())
-        val today = dayRepository.findByToday(todayAtMidnight)
+        val todayName = DateProcessor.getDayOfTheYearAsString(Date())
+        val today = dayRepository.findByName(todayName)
 
         if (today == null) {
             throw DatabaseEntryNotFoundException(
-                    ExceptionStrings.databaseEntryNotFound("Day", todayAtMidnight.toString()))
+                    ExceptionStrings.databaseEntryNotFound("Day", todayName))
         } else {
             return today
         }
     }
+
+    fun getDayFromName(name: String) : Day? {
+        return dayRepository.findByName(name)
+    }
+
+
+/********************************
+*********** WEEK REPO ***********
+*********************************/
+
+    fun saveWeek(week: Week) : Week {
+        try {
+            return weekRepository.save(week)
+        } catch (e: RuntimeException) {
+            throw DatabaseSaveException(
+                    ExceptionStrings.databaseFailedSave("Week", week.name, e.message))
+        }
+    }
+
+    fun getWeekForName(name: String) : Week? {
+        return weekRepository.findByName(name)
+    }
+
+
+/*********************************
+*********** MONTH REPO ***********
+**********************************/
+
+    fun saveMonth(month: Month) : Month {
+        try {
+            return monthRepository.save(month)
+        } catch (e: RuntimeException) {
+            throw DatabaseSaveException(
+                    ExceptionStrings.databaseFailedSave("Month", month.name, e.message))
+        }
+    }
+
+    fun getMonthForName(name: String) : Month? {
+        return monthRepository.findByName(name)
+    }
+
 }

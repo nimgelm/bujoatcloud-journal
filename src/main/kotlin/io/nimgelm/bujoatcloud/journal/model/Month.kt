@@ -6,11 +6,12 @@ import javax.persistence.*
 
 @Entity
 class Month(@OneToMany(mappedBy = "month") var weeks: List<Week>,
-            @OneToMany(mappedBy = "month") var retrospectives: List<Retrospective>) {
+            @OneToMany(mappedBy = "month") var retrospectives: List<Retrospective>,
+            val name: String = DateProcessor.getMonthOfTheYearAsString(Date())) {
 
     @Id
     @GeneratedValue
     var _id: Long? = null
 
-    val name = DateProcessor.getMonthOfTheYearAsString(Date())
+
 }
