@@ -1,8 +1,19 @@
 package io.nimgelm.bujoatcloud.journal.util
 
+import java.time.LocalTime
+import java.time.ZonedDateTime
 import java.util.*
 
 object DateProcessor {
+
+    fun getTodaysDateAtMidnight(zonedDateTime: ZonedDateTime) : ZonedDateTime {
+        return zonedDateTime.with(LocalTime.MIDNIGHT)
+    }
+
+    fun getDayOfTheYearAsString(date: Date) : String {
+        val calendar = getCalendarSetupForDate(date)
+        return "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH)}-${calendar.get(Calendar.DAY_OF_MONTH)}"
+    }
 
     fun getWeekOfTheYearAsString(date: Date) : String {
         val calendar = getCalendarSetupForDate(date)

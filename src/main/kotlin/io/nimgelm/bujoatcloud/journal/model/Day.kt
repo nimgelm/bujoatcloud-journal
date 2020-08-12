@@ -1,6 +1,9 @@
 package io.nimgelm.bujoatcloud.journal.model
 
+import io.nimgelm.bujoatcloud.journal.util.DateProcessor
+import java.time.LocalTime
 import java.time.ZonedDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -13,5 +16,6 @@ class Day(@OneToMany(mappedBy = "day") var notes: List<Note>,
     @GeneratedValue
     var _id: Long? = null
 
-    val today = ZonedDateTime.now()
+    val today = DateProcessor.getTodaysDateAtMidnight(ZonedDateTime.now())
+    val name = DateProcessor.getDayOfTheYearAsString(Date())
 }

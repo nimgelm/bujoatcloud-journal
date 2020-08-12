@@ -4,6 +4,8 @@ import io.nimgelm.bujoatcloud.journal.model.*
 import org.springframework.data.repository.CrudRepository
 
 interface EventRepository : CrudRepository<Event, Long> {
+
+    fun findByDay(day: Day) : List<Event>
 }
 
 interface NoteRepository : CrudRepository<Note, Long> {
