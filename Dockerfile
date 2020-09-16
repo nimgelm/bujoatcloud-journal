@@ -17,4 +17,4 @@ COPY src $APP_HOME/src
 ADD settings.gradle.kts $APP_HOME
 ADD build.gradle.kts $APP_HOME
 RUN $APP_HOME/gradlew clean
-RUN $APP_HOME/gradlew bootRun
+RUN $APP_HOME/gradlew bootJar

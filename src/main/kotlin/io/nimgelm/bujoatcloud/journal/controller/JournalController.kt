@@ -3,6 +3,7 @@ package io.nimgelm.bujoatcloud.journal.controller
 import io.nimgelm.bujoatcloud.journal.dto.*
 import io.nimgelm.bujoatcloud.journal.exception.*
 import io.nimgelm.bujoatcloud.journal.service.DatabaseService
+import io.nimgelm.bujoatcloud.journal.util.DateProcessor
 import io.nimgelm.bujoatcloud.journal.util.validator.DTOValidators
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -18,11 +19,17 @@ class JournalController {
     @Autowired
     lateinit var databaseService: DatabaseService
 
+    @Autowired
+    lateinit var schedulerController: SchedulerController
+
     @PostMapping("/v1/Events")
     fun insertNewEvent(@RequestBody(required = true) eventDTO: EventDTO) : ResponseEntity<ResponseDTO> {
         return try {
-            val today = databaseService.getDayForToday()
-            val validatedEvent = DTOValidators.validateEventDTO(eventDTO, today)
+            val validatedEvent = DTOValidators.validateEventDTO(eventDTO)
+            val scheduleDate = DateProcessor.getDateFromZonedDateTime(eventDTO.schedule!!)
+            val eventDay = schedulerController.getOrCreateDayForDate(scheduleDate)
+            validatedEvent.setDay(eventDay)
+
             val newEvent = databaseService.saveEvent(validatedEvent)
 
             ResponseEntity(MessageDTO("${newEvent._id}"), HttpStatus.CREATED)

@@ -13,14 +13,14 @@ import org.springframework.stereotype.Controller
 import java.util.*
 
 @Controller
-class JobController: ApplicationRunner {
+class SchedulerController: ApplicationRunner {
 
     @Autowired
     lateinit var databaseService: DatabaseService
 
-    private val logger = LoggerFactory.getLogger(JobController::class.java)
+    private val logger = LoggerFactory.getLogger(SchedulerController::class.java)
 
-    @Scheduled(cron="0 0 5 28 * ?")        //Every Last day of the Month, at 5 a.m.
+    @Scheduled(cron="0 0 5 28 * ?")        //One day at the end of the Month, at 5 a.m.
     fun createDaysForNextMonth() {
         val nextMonthDate = DateProcessor.getFirstDayOfMonth(Date(), 1)
         createDaysForMonthOfDate(nextMonthDate)
@@ -37,7 +37,7 @@ class JobController: ApplicationRunner {
         }
     }
 
-    private fun getOrCreateDayForDate(date: Date) : Day {
+    fun getOrCreateDayForDate(date: Date) : Day {
         val dayName = DateProcessor.getDayOfTheYearAsString(date)
         val existingDay = databaseService.getDayFromName(dayName)
 
@@ -105,4 +105,5 @@ class JobController: ApplicationRunner {
         val currentMonthDate = DateProcessor.getFirstDayOfMonth(Date())
         createDaysForMonthOfDate(currentMonthDate)
     }
+
 }

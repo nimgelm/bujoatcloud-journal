@@ -1,5 +1,6 @@
 package io.nimgelm.bujoatcloud.journal.util
 
+import java.time.ZonedDateTime
 import java.util.*
 
 object DateProcessor {
@@ -51,5 +52,9 @@ object DateProcessor {
     fun getDayOfMonthForDate(date: Date) : Int {
         val calendar = getCalendarSetupForDate(date)
         return calendar.get(Calendar.DAY_OF_MONTH)
+    }
+
+    fun getDateFromZonedDateTime(zonedDateTime: ZonedDateTime) : Date {
+        return Date.from(zonedDateTime.toInstant())
     }
 }
